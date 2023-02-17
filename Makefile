@@ -7,6 +7,20 @@ run: docker-build
 	docker rm -vf nyancat || true
 	docker run -d --name nyancat -p 8080:80 $(REGISTRY):$(DOCKER_TAG)
 
+k8s-0:
+	kind create cluster --name cosign-demo
+
+k8s-1: # Install kyverno.
+	kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.8.5/install.yaml
+
+k8s-2:
+	kubectl apply -f k8s/deployment.yaml
+	kubectl apply -f k8s/svc.yaml
+
+k8s-3:
+	pkill kubectl || true
+	kubectl port-forward svc/nyancat 8080:80 &
+
 docker-build:
 	docker build -t $(REGISTRY):$(DOCKER_TAG) .
 	docker push $(REGISTRY):$(DOCKER_TAG)

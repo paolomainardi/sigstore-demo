@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nyancat
+  name: nyancat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nyancat
+  template:
+    metadata:
+      labels:
+        app: nyancat
+    spec:
+      containers:
+        - image: ghcr.io/paolomainardi/idi2023-sigstore-demo:1.1.0
+          name: idi2023-sigstore-demo
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
