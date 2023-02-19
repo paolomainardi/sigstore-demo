@@ -1,0 +1,31 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: verify-sbom-cyclonedx
+spec:
+  validationFailureAction: enforce
+  webhookTimeoutSeconds: 30
+  rules:
+    - name: check-sbom
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      verifyImages:
+        - imageReferences:
+            - "ghcr.io/paolomainardi*"
+          attestations:
+            - predicateType: https://cyclonedx.org/schema
+              attestors:
+                - entries:
+                    - keyless:
+                        subject: "paolo.mainardi@sparkfabrik.com"
+                        issuer: "https://github.com/login/oauth"
+                        rekor:
+                          url: https://rekor.sigstore.dev
+              conditions:
+                - all:
+                    - key: "{{ Data.bomFormat }}"
+                      operator: Equals
+                      value: CycloneDX

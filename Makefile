@@ -64,7 +64,7 @@ k8s-1: ## Install kyverno.
 	@kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.8.5/install.yaml || true
 
 k8s-2: ## Apply kyverno policy.
-	kubectl apply -f k8s/kyverno-policy.yaml
+	kubectl apply -f k8s/kyverno/policy-check-signature.yaml
 
 k8s-3: ## Deploy nyancat.
 	kubectl apply -f k8s/deployment.yaml
@@ -78,6 +78,15 @@ k8s-5: ## Change the dockerfile and push a new tag without signature.
 	sed -i 's/IDI2023/PHPDAY/g' src/index.html
 	docker build -t $(REGISTRY):1.1.0 .
 	docker push $(REGISTRY):1.1.0
+
+k8s-6: ## Scan the registry to see pushed tags, but no signature.
+	crane ls $(REGISTRY)
+
+k8s-7: ## Sign release 1.1.0
+	cosign sign "$(REGISTRY)":@$(shell crane digest $(REGISTRY):1.1.0)
+
+k8s-8: ## Deploy a kyverno policy to enforce sbom attestation.
+	kubectl apply -f k8s/kyverno/policy-check-sbom.yaml
 
 ##@ Help
 .PHONY: help
