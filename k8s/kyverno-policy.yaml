@@ -1,12 +1,12 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: check-image-keyless
+  name: admit-only-signed-images-by-me
 spec:
   validationFailureAction: enforce
   webhookTimeoutSeconds: 30
   rules:
-    - name: check-image-keyless
+    - name: admit-only-signed-images-by-me
       match:
         any:
           - resources:
@@ -14,11 +14,11 @@ spec:
                 - Pod
       verifyImages:
         - imageReferences:
-            - "ghcr.io/paolomainardi/idi2023-sigstore-demo*"
+            - "ghcr.io/paolomainardi*"
           attestors:
             - entries:
                 - keyless:
-                    subject: "*@sparkfabrik.com"
+                    subject: "paolo.mainardi@sparkfabrik.com"
                     issuer: "https://github.com/login/oauth"
                     rekor:
                       url: https://rekor.sigstore.dev
