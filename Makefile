@@ -4,6 +4,11 @@ ifndef DOCKER_TAG
 endif
 
 ##@ Docker
+
+clean:
+	kubectl delete -f k8s || true
+	kubectl delete -f k8s/kyverno || true
+
 run: docker-build ## Build the image and run it.
 	docker rm -vf nyancat || true
 	docker run -d --name nyancat -p 8080:80 $(REGISTRY):$(DOCKER_TAG)
@@ -13,6 +18,9 @@ docker-build: ## Build and push the image.
 	@echo -e ""
 	@docker build -t $(REGISTRY):$(DOCKER_TAG) .
 	docker push $(REGISTRY):$(DOCKER_TAG)
+
+list-registry:
+	crane ls $(REGISTRY)
 
 ##@ Sigstore
 cosign-0: ## Scan the registry.

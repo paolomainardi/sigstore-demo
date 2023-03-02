@@ -15,7 +15,7 @@ spec:
         app: nyancat
     spec:
       containers:
-        - image: ghcr.io/paolomainardi/idi2023-sigstore-demo:1.1.0
+        - image: ghcr.io/paolomainardi/idi2023-sigstore-demo:1.0.0
           name: idi2023-sigstore-demo
           ports:
             - containerPort: 80
