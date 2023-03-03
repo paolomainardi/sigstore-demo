@@ -7,7 +7,7 @@ endif
 
 clean:
 	kubectl delete -f k8s || true
-	kubectl delete -f k8s/kyverno || true
+	kubectl delete -f k8s/policy || true
 
 run: docker-build ## Build the image and run it.
 	docker rm -vf nyancat || true
@@ -18,6 +18,9 @@ docker-build: ## Build and push the image.
 	@echo -e ""
 	@docker build -t $(REGISTRY):$(DOCKER_TAG) .
 	docker push $(REGISTRY):$(DOCKER_TAG)
+
+port-forward:
+	kubectl port-forward svc/nyancat 8000:80 
 
 list-registry:
 	crane ls $(REGISTRY)
@@ -52,10 +55,10 @@ sbom-4: ## Scan the registry.
 	crane ls $(REGISTRY)
 
 sbom-5: ## Verify sbom attestation and download the SBOM file.
-	cosign verify-attestation --type cyclonedx $(REGISTRY):$(DOCKER_TAG) > sbom-verify-attestation.json
+	cosign verify-attestation --type cyclonedx $(REGISTRY):$(DOCKER_TAG) > sbom-attestation.json
 
 sbom-6:	## Extract the sbom payload from the attestation.
-	cat sbom-verify-attestation.json | jq -r .payload | base64 -d | jq -r ".predicate.Data" | jless
+	cat sbom-attestation.json | jq -r .payload | base64 -d | jq -r ".predicate.Data" | jless
 
 ##@ Vulnerability Scanning
 vuln-1: ## Scan the image with grype.
