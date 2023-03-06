@@ -1,10 +1,10 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.4",
-  "serialNumber": "urn:uuid:4b8003cf-ce15-4420-8a71-c5336d5f756f",
+  "serialNumber": "urn:uuid:ab2fc0af-f2a0-47b6-9ecc-ff6164d8554e",
   "version": 1,
   "metadata": {
-    "timestamp": "2023-03-03T16:28:51+01:00",
+    "timestamp": "2023-03-05T19:21:36+01:00",
     "tools": [
       {
         "vendor": "anchore",
@@ -15,7 +15,7 @@
     "component": {
       "bom-ref": "4ab758c27f6d91b1",
       "type": "container",
-      "name": "ghcr.io/paolomainardi/idi2023-sigstore-demo:1.1.0",
+      "name": "ghcr.io/paolomainardi/idi2023-sigstore-demo:1.0.0",
       "version": "sha256:b5ee1c0eca8983b5d2ac918bebdf9e042c842082a68a3cdea66658faa9e44dfe"
     }
   },

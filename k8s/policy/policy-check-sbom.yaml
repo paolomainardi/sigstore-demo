@@ -1,7 +1,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: verify-sbom-cyclonedx
+  name: admit-only-images-with-sbom
 spec:
   validationFailureAction: enforce
   webhookTimeoutSeconds: 30

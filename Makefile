@@ -6,6 +6,7 @@ endif
 ##@ Docker
 
 clean:
+	@kubectx kind-cosign-demo
 	kubectl delete -f k8s || true
 	kubectl delete -f k8s/policy || true
 
