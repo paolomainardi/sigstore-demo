@@ -5,6 +5,10 @@ endif
 
 ##@ Docker
 
+macos-deps:
+	brew tap anchore/grype
+	brew install kind crane syft cosign grype
+
 clean:
 	@kubectx kind-cosign-demo
 	kubectl delete -f k8s || true
