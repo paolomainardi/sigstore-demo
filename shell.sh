@@ -7,4 +7,5 @@ export COSIGN_EXPERIMENTAL=1
 kubectx kind-cosign-demo
 clear
 kubectx kind-cosign-demo
+bash -c "source <(cosign completion bash)"
 bash -i
