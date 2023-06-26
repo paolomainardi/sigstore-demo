@@ -9,6 +9,11 @@ macos-deps:
 	brew tap anchore/grype
 	brew install kind crane syft cosign grype
 
+linux-deps:
+	mkdir -p bin/linux
+	curl -Lo bin/linux/cosign https://github.com/sigstore/cosign/releases/download/v1.13.1/cosign-linux-amd64
+	chmod +x bin/linux/cosign
+
 clean:
 	@kubectx kind-cosign-demo
 	kubectl delete -f k8s || true
@@ -25,7 +30,7 @@ docker-build: ## Build and push the image.
 	docker push $(REGISTRY):$(DOCKER_TAG)
 
 port-forward:
-	kubectl port-forward svc/nyancat 8000:80 
+	kubectl port-forward svc/nyancat 8000:80
 
 list-registry:
 	crane ls $(REGISTRY)
@@ -80,7 +85,7 @@ k8s-1: ## Install kyverno.
 	@kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.8.5/install.yaml || true
 
 k8s-2: ## Apply kyverno policy.
-	kubectl apply -f k8s/kyverno/policy-check-signature.yaml
+	kubectl apply -f k8s/policy
 
 k8s-3: ## Deploy nyancat.
 	kubectl apply -f k8s/deployment.yaml
