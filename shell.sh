@@ -11,4 +11,5 @@ kubectx kind-cosign-demo
 clear
 kubectx kind-cosign-demo
 bash -c "source <(cosign completion bash)"
-bash -i
+tmux new-session -d -s sigstore-demo 'tmux set-option mouse on && tmux set status off && bash -i'
+tmux attach-session -t sigstore-demo
