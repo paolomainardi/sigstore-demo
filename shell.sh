@@ -5,11 +5,14 @@ export REGISTRY=ghcr.io/paolomainardi/sigstore-demo
 export IMAGE=ghcr.io/paolomainardi/sigstore-demo
 export DOCKER_TAG=1.0.0
 export COSIGN_EXPERIMENTAL=1
+export GRYPE_DB_AUTO_UPDATE=0
+export GRYPE_CHECK_FOR_APP_UPDATE=0
 export SHELL=$(which bash)
 export PATH=$(pwd)/bin/${OS}:$PATH
 kubectx kind-cosign-demo
 clear
 kubectx kind-cosign-demo
 bash -c "source <(cosign completion bash)"
-tmux new-session -d -s sigstore-demo 'tmux set-option mouse on && tmux set status off && bash -i'
-tmux attach-session -t sigstore-demo
+#tmux new-session -d -s sigstore-demo 'tmux set-option mouse on && tmux set status off && bash -i'
+#tmux attach-session -t sigstore-demo
+bash -i
