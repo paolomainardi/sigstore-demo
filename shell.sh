@@ -7,6 +7,7 @@ export DOCKER_TAG=1.0.0
 export COSIGN_EXPERIMENTAL=1
 export GRYPE_DB_AUTO_UPDATE=0
 export GRYPE_CHECK_FOR_APP_UPDATE=0
+export SYFT_CHECK_FOR_APP_UPDATE=0
 export SHELL=$(which bash)
 export PATH=$(pwd)/bin/${OS}:$PATH
 kubectx kind-cosign-demo
