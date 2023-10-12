@@ -8,6 +8,14 @@ endif
 macos-deps:
 	brew tap anchore/grype
 	brew install kind crane syft cosign grype
+	mkdir -p bin/darwin
+	curl -Lo bin/darwin/cosign https://github.com/sigstore/cosign/releases/download/v1.13.1/cosign-darwin-arm64
+	chmod +x bin/darwin/cosign
+
+linux-deps:
+	mkdir -p bin/linux
+	curl -Lo bin/linux/cosign https://github.com/sigstore/cosign/releases/download/v1.13.1/cosign-linux-amd64
+	chmod +x bin/linux/cosign
 
 clean:
 	@kubectx kind-cosign-demo
@@ -25,7 +33,7 @@ docker-build: ## Build and push the image.
 	docker push $(REGISTRY):$(DOCKER_TAG)
 
 port-forward:
-	kubectl port-forward svc/nyancat 8000:80 
+	kubectl port-forward svc/nyancat 8000:80
 
 list-registry:
 	crane ls $(REGISTRY)
@@ -80,7 +88,7 @@ k8s-1: ## Install kyverno.
 	@kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.8.5/install.yaml || true
 
 k8s-2: ## Apply kyverno policy.
-	kubectl apply -f k8s/kyverno/policy-check-signature.yaml
+	kubectl apply -f k8s/policy
 
 k8s-3: ## Deploy nyancat.
 	kubectl apply -f k8s/deployment.yaml
@@ -111,3 +119,14 @@ help: ## Show this help screen.
 	@echo ''
 	@echo 'Available targets are:'
 	@awk 'BEGIN {FS = ":.*##";} /^[a-zA-Z0-9_-]+:.*?##/ { printf "  \033[36m%-25s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+
+
+# Drupal drubom demo.
+drupal-install:
+	docker-compose down -v
+	docker-compose build
+	docker-compose up -d
+	./scripts/drupal-install.sh
+
+drupal-cli:
+	docker-compose exec drupal bash

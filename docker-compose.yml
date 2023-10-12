@@ -1,0 +1,19 @@
+version: "3.1"
+
+services:
+  drupal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    volumes:
+      - /var/www/html/modules
+      - /var/www/html/profiles
+      - /var/www/html/themes
+      - /var/www/html/sites
+      - drupal-sqlite:/opt/drupal/web/sqlite
+    restart: always
+
+volumes:
+  drupal-sqlite:
