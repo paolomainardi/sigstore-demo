@@ -122,7 +122,9 @@ help: ## Show this help screen.
 
 
 # Drupal drubom demo.
-drupal-install:
+drupal-bootstrap-demo: drupal-stop-all drupal-setup d-backup-demo-setup
+
+drupal-setup:
 	docker-compose down -v
 	docker-compose build
 	docker-compose up -d
@@ -136,13 +138,13 @@ d-backup-demo-setup:
 	COMPOSE_PROJECT_NAME=demo-backup PORT=8081 docker-compose exec drupal bash -c "composer require drupal/drubom:1.0.x-dev"
 	COMPOSE_PROJECT_NAME=demo-backup PORT=8081 docker-compose exec drupal bash -c "drush -y en drubom && drush drubom:generate"
 
-drupal-backup-cli:
-	@COMPOSE_PROJECT_NAME=demo-backup PORT=8081 CONTAINER_HOSTNAME=drupalcon-b docker-compose up -d
-	@COMPOSE_PROJECT_NAME=demo-backup PORT=8081 CONTAINER_HOSTNAME=drupalcon-b docker-compose exec drupal bash
-
 drupal-stop-all:
 	docker-compose down -v
 	COMPOSE_PROJECT_NAME=demo-backup PORT=8081 docker-compose down -v
 
 drupal-cli:
 	docker-compose exec drupal bash
+
+drupal-backup-cli:
+	@COMPOSE_PROJECT_NAME=demo-backup PORT=8081 CONTAINER_HOSTNAME=drupalcon-b docker-compose up -d
+	@COMPOSE_PROJECT_NAME=demo-backup PORT=8081 CONTAINER_HOSTNAME=drupalcon-b docker-compose exec drupal bash
