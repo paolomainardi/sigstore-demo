@@ -1,4 +1,4 @@
-FROM drupal:10.1.5-apache-bullseye
+FROM drupal:10.1.5-apache-bookworm
 
 # Install firebase tools, needed to store the assets.
 RUN apt-get update && \
