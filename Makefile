@@ -128,16 +128,17 @@ drupal-install:
 	docker-compose up -d
 	./scripts/drupal-install.sh
 
-drupal-backup-demo-setup:
+d-backup-demo-setup:
 	COMPOSE_PROJECT_NAME=demo-backup PORT=8081 docker-compose down -v
 	COMPOSE_PROJECT_NAME=demo-backup PORT=8081 docker-compose build
 	COMPOSE_PROJECT_NAME=demo-backup PORT=8081 docker-compose up -d
 	COMPOSE_PROJECT_NAME=demo-backup PORT=8081 ./scripts/drupal-install.sh
-	COMPOSE_PROJECT_NAME=demo-backup PORT=8081 docker-compsoe exec drupal bash -c "composer require drupal/drubom:1.0.x-dev"
-	COMPOSE_PROJECT_NAME=demo-backup PORT=8081 docker-compsoe exec drupal bash -c "drush -y en drubom"
+	COMPOSE_PROJECT_NAME=demo-backup PORT=8081 docker-compose exec drupal bash -c "composer require drupal/drubom:1.0.x-dev"
+	COMPOSE_PROJECT_NAME=demo-backup PORT=8081 docker-compose exec drupal bash -c "drush -y en drubom && drush drubom:generate"
 
 drupal-backup-cli:
-	COMPOSE_PROJECT_NAME=demo-backup PORT=8081 docker-compose exec drupal bash
+	@COMPOSE_PROJECT_NAME=demo-backup PORT=8081 CONTAINER_HOSTNAME=drupalcon-b docker-compose up -d
+	@COMPOSE_PROJECT_NAME=demo-backup PORT=8081 CONTAINER_HOSTNAME=drupalcon-b docker-compose exec drupal bash
 
 drupal-stop-all:
 	docker-compose down -v

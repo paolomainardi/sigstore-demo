@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    hostname: ${CONTAINER_HOSTNAME:-drupalcon}
     ports:
       - ${PORT:-8080}:80
     volumes:
