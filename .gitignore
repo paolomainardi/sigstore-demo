@@ -1,3 +1,4 @@
 sbom-verify-attestation.json
 sbom-cyclonedx.json
 bin
+.grype-cache
