@@ -7,6 +7,10 @@ services:
       dockerfile: Dockerfile
     hostname: ${CONTAINER_HOSTNAME:-drupalcon}
     image: ${IMAGE-ghcr.io/paolomainardi/sigstore-demo}:1.0.0
+    environment:
+      - GRYPE_CHECK_FOR_APP_UPDATE=0
+      - GRYPE_DB_AUTO_UPDATE=0
+      - SYFT_CHECK_FOR_APP_UPDATE=0
     ports:
       - ${PORT:-8080}:80
     volumes:
