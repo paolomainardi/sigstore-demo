@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     hostname: ${CONTAINER_HOSTNAME:-drupalcon}
-    image: ${IMAGE}:1.0.0
+    image: ${IMAGE-ghcr.io/paolomainardi/sigstore-demo}:1.0.0
     ports:
       - ${PORT:-8080}:80
     volumes:
