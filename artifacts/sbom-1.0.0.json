@@ -15,7 +15,7 @@
     "component": {
       "bom-ref": "980cae5598c02164",
       "type": "container",
-      "name": "ghcr.io/paolomainardi/idi2023-sigstore-demo:1.0.0",
+      "name": "ghcr.io/paolomainardi/sigstore-demo:1.0.0",
       "version": "sha256:01884a13137bc873aa94b1ec3da4af7a112b9369c03d330fd93b821a4dd6bc30"
     }
   },

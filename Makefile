@@ -8,6 +8,9 @@ endif
 macos-deps:
 	brew tap anchore/grype
 	brew install kind crane syft cosign grype
+	mkdir -p bin/darwin
+	curl -Lo bin/darwin/cosign https://github.com/sigstore/cosign/releases/download/v1.13.1/cosign-darwin-arm64
+	chmod +x bin/darwin/cosign
 
 clean:
 	@kubectx kind-cosign-demo

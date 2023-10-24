@@ -1,0 +1,34 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: admit-only-safe-images
+spec:
+  validationFailureAction: enforce
+  webhookTimeoutSeconds: 30
+  rules:
+    - name: check-vulnerabilities
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      verifyImages:
+        - imageReferences:
+            - "ghcr.io/paolomainardi*"
+          attestations:
+            - predicateType: https://cyclonedx.org/schema
+              attestors:
+                - entries:
+                    - keyless:
+                        subject: "paolo.mainardi@sparkfabrik.com"
+                        issuer: "https://github.com/login/oauth"
+                        rekor:
+                          url: https://rekor.sigstore.dev
+              conditions:
+                - all:
+                    - key: "{{ Data.bomFormat }}"
+                      operator: Equals
+                      value: CycloneDX
+                    - key: "{{ Data.vulnerabilities[].ratings[].severity }}"
+                      operator: NotIn
+                      value: ["critical", "high"]
